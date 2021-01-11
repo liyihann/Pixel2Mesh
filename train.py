@@ -19,7 +19,7 @@ from p2m.utils import *
 from p2m.models import GCN
 from p2m.fetcher import *
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 # Set random seed
 seed = 1024
