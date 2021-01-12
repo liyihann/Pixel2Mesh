@@ -16,10 +16,14 @@
 #
 import os, sys
 import tensorflow as tf
-from pixel2mesh.models import GCN
-from pixel2mesh.fetcher import *
-from pixel2mesh.cd_dist import nn_distance
+# from pixel2mesh.models import GCN
+# from pixel2mesh.fetcher import *
+# from pixel2mesh.cd_dist import nn_distance
+from p2m.models import GCN
+from p2m.fetcher import *
+from p2m.chamfer import nn_distance
 sys.path.append('external')
+# from tf_approxmatch import approx_match, match_cost
 from tf_approxmatch import approx_match, match_cost
 
 # Settings
@@ -27,7 +31,8 @@ flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_string('data_list', 'Data/test_list.txt', 'Data list path.')
 flags.DEFINE_float('learning_rate', 3e-5, 'Initial learning rate.')
-flags.DEFINE_integer('hidden', 192, 'Number of units in  hidden layer.')
+# flags.DEFINE_integer('hidden', 192, 'Number of units in  hidden layer.')
+flags.DEFINE_integer('hidden', 256, 'Number of units in  hidden layer.')
 flags.DEFINE_integer('feat_dim', 963, 'Number of units in perceptual feature layer.')
 flags.DEFINE_integer('coord_dim', 3, 'Number of units in output layer.') 
 flags.DEFINE_float('weight_decay', 5e-6, 'Weight decay for L2 loss.')
@@ -122,6 +127,7 @@ sum_emd = {i:0 for i in class_name}
 for iters in range(train_number):
 	# Fetch training data
 	img_inp, label, model_id = data.fetch()
+
 	feed_dict.update({placeholders['img_inp']: img_inp})
 	feed_dict.update({placeholders['labels']: label})
 	# Training step
